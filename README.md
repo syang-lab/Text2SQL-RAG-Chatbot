@@ -1,6 +1,8 @@
 ### HW 1
 #### Overview LLM working flow:
 
+![screenshot](screenshot.png)
+
 #### Pretrained LLM Model
 1. Model Selection 
 2. Pre-train data preprocessing 
