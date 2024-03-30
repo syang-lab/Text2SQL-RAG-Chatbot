@@ -1,8 +1,9 @@
 ### HW 1
-#### Overview LLM working flow:
+### LLM Application Working Flow:
 
-![screenshot](screenshot.png)
+![LLM Application Working Flow](LLM-Application-Working-Flow.png)
 
+### LLM Model
 #### Pretrained LLM Model
 1. Model Selection 
 2. Pre-train data preprocessing 
