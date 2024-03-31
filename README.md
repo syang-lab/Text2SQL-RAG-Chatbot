@@ -128,5 +128,12 @@ def template_map_fn_factory(template):
 2. Evalution Matrix 
 #### Ablation Study
 
+- [ ] 1.download hugging face pretrained model
+- [ ] 2.download dataset
+- [ ] 3.run the training
+- [ ] 4.RAG or agent: how does RAG or agent work?
+- [ ] 5.Modify to flexiable framework for training and deployment.
+- [ ] 3.add evaluation matrix, why no evaluation matrix calculation in the fine-tunning?
+
 
 
