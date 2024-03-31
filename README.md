@@ -110,12 +110,13 @@
    e. select traing speedup
       1. adapter 
       2. LoRA or QLoRA
-      3. directly optimize memory and optimization--deepspeed: model scale, speed, scalibility
+      3. framework:directly optimize memory and optimization--deepspeed: model scale, speed, scalibility
     
    f. inference speed up 
       1. Quantation to reduce the number of bits: GPU-AWQ/GPTQ, CPU-GGUF/GGML
       2. pageattention
       3. flashattention
+      4. framework:deepspeed
     
     g. deployment 
 
