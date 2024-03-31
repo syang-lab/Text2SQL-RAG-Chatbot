@@ -130,6 +130,7 @@
 - [ ] 1.download hugging face pretrained model
 - [ ] 2.download dataset
 - [ ] 3.run the training
+- [ ] 5.how does LoRA and deepspeed work? how does inference work.
 - [ ] 4.RAG or agent: how does RAG or agent work?
 - [ ] 5.Modify to flexiable framework for training and deployment.
 - [ ] 3.add evaluation matrix, why no evaluation matrix calculation in the fine-tunning?
