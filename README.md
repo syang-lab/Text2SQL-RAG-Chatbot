@@ -20,7 +20,8 @@
    
     a. define high level objective
 
-   b. select model and tokenizer 
+   b. select model and tokenizer
+     1. in general left padding is recommended, however LLaMA2 used right padding.
 
    c. select dataset, and preprocess data to follow the default template.
    
@@ -108,15 +109,30 @@
    d. evaluation matrix 
 
    e. select traing speedup
-      1. adapter 
+      1. Adapter 
       2. LoRA or QLoRA
-      3. framework:directly optimize memory and optimization--deepspeed: model scale, speed, scalibility
+      3. Quantation: bitsandbytes enables accessible large language models via k-bit quantization for PyTorch.
+       to load and quantize a model to 4-bits and use the bfloat16 data type for compute:
+       ```
+        from transformers import AutoModelForCausalLM, BitsAndBytesConfig
+        quantization_config = BitsAndBytesConfig(load_in_4bit=True, bnb_4bit_compute_dtype=torch.bfloat16)
+        model_4bit = AutoModelForCausalLM.from_pretrained(
+            "bigscience/bloom-1b7",
+            device_map=device_map,
+            quantization_config=quantization_config,
+        )
+       ```
+      optimizer
+      ```
+      from bitsandbytes.optim import PagedAdamW32bit
+      ```
+      5. Framework: directly optimize memory and optimization--deepspeed: model scale, speed, scalibility
     
    f. inference speed up 
       1. Quantation to reduce the number of bits: GPU-AWQ/GPTQ, CPU-GGUF/GGML
-      2. pageattention
-      3. flashattention
-      4. framework:deepspeed(only zero-3)
+      2. Pageattention
+      3. Flashattention
+      4. Framework:deepspeed(only zero-3)
     
     g. deployment 
 
