@@ -116,7 +116,7 @@
       1. Quantation to reduce the number of bits: GPU-AWQ/GPTQ, CPU-GGUF/GGML
       2. pageattention
       3. flashattention
-      4. framework:deepspeed
+      4. framework:deepspeed(only zero-3)
     
     g. deployment 
 
@@ -126,7 +126,8 @@
 1. Evaluation Benchmark Dataset 
     1. Performance on Downstream Tasks:(1) 全面测试(),(2) 语言和知识,(3) 推理和数学,(4) 多种编程语言编程,(5) 长文本建模,(6) 工具利用。
     2. Performance on Alignment: 评估模型的对齐能力对于判断LLMs是否真正满足人类需求至关重要。
-2. Evalution Matrix 
+2. Evalution Matrix
+
 #### Ablation Study
 
 - [ ] 1.download hugging face pretrained model
