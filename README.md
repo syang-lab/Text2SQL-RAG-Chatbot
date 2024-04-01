@@ -122,10 +122,12 @@
             quantization_config=quantization_config,
         )
        ```
+
       optimizer
       ```
       from bitsandbytes.optim import PagedAdamW32bit
       ```
+      
       5. Framework: directly optimize memory and optimization--deepspeed: model scale, speed, scalibility
     
    f. inference speed up 
