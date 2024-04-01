@@ -111,8 +111,22 @@
    e. select traing speedup
       1. Adapter 
       2. LoRA or QLoRA
+      training LoRA
+      ```
+      from peft import LoraConfig, TaskType
+      lora_config = LoraConfig(
+          r=16,
+          target_modules=["q_proj", "v_proj"],
+          task_type=TaskType.CAUSAL_LM,
+          lora_alpha=32,
+          lora_dropout=0.05
+      )
+      model.add_adapter(peft_config)
+      ```
+
       3. Quantation: bitsandbytes enables accessible large language models via k-bit quantization for PyTorch.
        to load and quantize a model to 4-bits and use the bfloat16 data type for compute:
+
        ```
         from transformers import AutoModelForCausalLM, BitsAndBytesConfig
         quantization_config = BitsAndBytesConfig(load_in_4bit=True, bnb_4bit_compute_dtype=torch.bfloat16)
@@ -123,13 +137,25 @@
         )
        ```
 
-      optimizer
+        quantation of optimizer
       ```
       from bitsandbytes.optim import PagedAdamW32bit
       ```
       
       5. Framework: directly optimize memory and optimization--deepspeed: model scale, speed, scalibility
-    
+      ```
+      from transformers.integrations import HfDeepSpeedConfig
+      from transformers import AutoModel
+      import deepspeed
+      
+      ds_config = {...}  # deepspeed config object or path to the file
+      # must run before instantiating the model to detect zero 3
+      dschf = HfDeepSpeedConfig(ds_config)  # keep this object alive
+      model = AutoModel.from_pretrained("openai-community/gpt2")
+      engine = deepspeed.initialize(model=model, config_params=ds_config, ...)
+      deepspeed --num_gpus=2 your_program.py <normal cl args> --do_eval --deepspeed ds_config.json
+      ```
+      
    f. inference speed up 
       1. Quantation to reduce the number of bits: GPU-AWQ/GPTQ, CPU-GGUF/GGML
       2. Pageattention
@@ -151,7 +177,6 @@
 - [ ] 1.download hugging face pretrained model
 - [ ] 2.download dataset
 - [ ] 3.run the training
-- [ ] 5.how does LoRA and deepspeed work? how does inference speedup work.
 - [ ] 4.RAG or agent: how does RAG or agent work?
 - [ ] 5.Modify to flexiable framework for training and deployment.
 - [ ] 3.add evaluation matrix, why no evaluation matrix calculation in the fine-tunning?
