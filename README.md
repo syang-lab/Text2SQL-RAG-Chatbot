@@ -170,6 +170,7 @@
 1. Evaluation Benchmark Dataset 
     1. Performance on Downstream Tasks:(1) 全面测试(),(2) 语言和知识,(3) 推理和数学,(4) 多种编程语言编程,(5) 长文本建模,(6) 工具利用。
     2. Performance on Alignment: 评估模型的对齐能力对于判断LLMs是否真正满足人类需求至关重要。
+    
 2. Evalution Matrix
 
 #### Ablation Study
@@ -177,9 +178,10 @@
 - [ ] 1.download hugging face pretrained model
 - [ ] 2.download dataset
 - [ ] 3.run the training
-- [ ] 4.RAG or agent: how does RAG or agent work?
-- [ ] 5.Modify to flexiable framework for training and deployment.
-- [ ] 3.add evaluation matrix, why no evaluation matrix calculation in the fine-tunning?
+- [ ] 4.modify the evaluation module for validaiton.
+- [ ] 5.add evaluation for testdataset.
+- [ ] 5.RAG or agent: how does RAG or agent work?
+- [ ] 7.Modify to flexiable framework for training and deployment. This could be much simpler. The frame work wrapped too much, reduce the flexibility.
 
 
 
