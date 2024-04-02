@@ -175,8 +175,8 @@
 
 #### Ablation Study
 
-- [ ] 1.download hugging face pretrained model
-- [ ] 2.download dataset
+- [x] 1.download hugging face pretrained model
+- [x] 2.download dataset
 - [ ] 3.run the training
 - [ ] 4.modify the evaluation module for validaiton.
 - [ ] 5.add evaluation for testdataset.
