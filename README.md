@@ -197,6 +197,7 @@ what does this mean? pad_token_id=tokenizer.eos_token_id
 
 #### HW2
 ![generate a story](HW2.png)
+![download modek](HW2-1.png)
 
 
 
