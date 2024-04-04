@@ -177,11 +177,23 @@
 
 - [x] 1.download hugging face pretrained model
 - [x] 2.download dataset
-- [ ] 3.run the training
-- [ ] 4.modify the evaluation module for validaiton.
-- [ ] 5.add evaluation for testdataset.
-- [ ] 5.RAG or agent: how does RAG or agent work?
+- [x] 3.run the training
+- [ ] 4.why the evaluation model is so wired? can not evaluate the performance. Unless use the evaluation dataset. 
+- [ ] 5.RAG or agent: how does RAG or agent work? Done. Compass evaluation. 
 - [ ] 7.Modify to flexiable framework for training and deployment. This could be much simpler. The frame work wrapped too much, reduce the flexibility.
+
+
+#### LlamA2
+1.training use bfloat16
+2.add token We can’t have the same logic, make sure to add a padding token using tokenizer.add_special_tokens({"pad_token":"<pad>"}) and resize the token embedding accordingly. You should also set the model.config.pad_token_id. The embed_tokens layer of the model is initialized with self.embed_tokens = nn.Embedding(config.vocab_size, config.hidden_size, self.config.padding_idx), which makes sure that encoding the padding token will output zeros, so passing it when initializing is recommended.
+what does this mean? pad_token_id=tokenizer.eos_token_id
+3.sentense peice tokenizer
+4.attn_implementation="flash_attention_2", don’t pass torch_dtype to the from_pretrained class method and use Automatic Mixed-Precision training. When using Trainer, it is simply specifying either fp16 or bf16 to True. Otherwise, make sure you are using torch.autocast. This is required because the Flash Attention only support fp16 and bf16 data type.
+5.template
+
+#### HW2
+![generate a story](HW2.png)
+
 
 
 
