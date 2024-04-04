@@ -181,7 +181,7 @@
 - [x] 4.why the evaluation model is so wired? can not evaluate the performance. Unless use the evaluation dataset. 
 - [ ] 5.RAG or agent: how does RAG or agent work? Done. Compass evaluation. 
 - [ ] 7.Modify to flexiable framework for training and deployment. This could be much simpler. The frame work wrapped too much, reduce the flexibility.
-- [ ] 8.How does the traininer know to only tune the weight for LoRA?
+- [x] 8.How does the traininer know to only tune the weight for LoRA? make only the LoRA weight trainable
 
 
 #### LlamA2
