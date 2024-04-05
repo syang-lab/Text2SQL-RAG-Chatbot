@@ -194,7 +194,8 @@
 - [x] 8.How does the traininer know to only tune the weight for LoRA? make only the LoRA weight trainable
 - [x] quantation, deepspeed:stage2 speedip+offload, LoRA, weight&bias.
 - [ ] Optimize inference(with repeate poration of input, how do you deal with it) and evaluation, take argparse, use model to build RAG.
-- [ ] 1.tokenizer return tensor=="pt", 2.evaluation takes more time, case GPU OOM. 3.optimizer not compatable. 4.inference with repeate poration of input, how do you deal with it? and evaluation. maybe use a different version of transformer for inference. and evaluation!
+- [ ] 1.tokenizer return tensor=="pt", 2.evaluation takes more time, case GPU OOM. 3.optimizer not compatable. 4.inference with repeate poration of input, how do you deal with it? and evaluation. maybe use a different version of transformer for inference. and evaluation! https://wandb.ai/ayush-thakur/llm-eval-sweep/reports/How-to-Evaluate-Compare-and-Optimize-LLM-Systems--Vmlldzo0NzgyMTQz
+    evaluation also requires finetunning parameters.
 - [ ] push to model hub, hold on hugging facespace?GPU? what are the temperature used for evaluation?
 
 #### LlamA2
