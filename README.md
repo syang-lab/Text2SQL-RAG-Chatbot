@@ -190,10 +190,12 @@
 - [x] 2.download dataset
 - [x] 3.run the training
 - [x] 4.why the evaluation model is so wired? can not evaluate the performance. Unless use the evaluation dataset. 
-- [ ] 5.RAG or agent: how does RAG or agent work? Done. Compass evaluation. 
-- [ ] 7.Modify to flexiable framework for training and deployment. This could be much simpler. The frame work wrapped too much, reduce the flexibility.
+- [x] 7.Modify to flexiable framework for training and deployment. This could be much simpler. The frame work wrapped too much, reduce the flexibility.
 - [x] 8.How does the traininer know to only tune the weight for LoRA? make only the LoRA weight trainable
-
+- [x] quantation, deepspeed:stage2 speedip+offload, LoRA, weight&bias.
+- [ ] Optimize inference(with repeate poration of input, how do you deal with it) and evaluation, take argparse, use model to build RAG.
+- [ ] 1.tokenizer return tensor=="pt", 2.evaluation takes more time, case GPU OOM. 3.optimizer not compatable. 4.inference with repeate poration of input, how do you deal with it? and evaluation. maybe use a different version of transformer for inference. and evaluation!
+- [ ] push to model hub, hold on hugging facespace?GPU? what are the temperature used for evaluation?
 
 #### LlamA2
 1.training use bfloat16
