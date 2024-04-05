@@ -26,21 +26,26 @@
    c. select dataset, and preprocess data to follow the default template.
    
      For instance LLaMA chat template (prompt_template = PROMPT_TEMPLATE.llama2_chat):
+   
     ```
     <bos_token>[INST] B_SYS SystemPrompt E_SYS Prompt [/INST] Answer <eos_token><bos_token>[INST] Prompt [/INST] Answer <eos_token> \
     <bos_token>[INST] Prompt [/INST] ....
     ```
+    
    xtuner setup the dataset configuration:
+   
     ```
     prompt_template = PROMPT_TEMPLATE.llama2_chat
     dataset_map_fn=alpaca_map_fn,
     template_map_fn=dict(
         type=template_map_fn_factory, template=prompt_template)
     ```
+    
    contains two steps:
 
 
-    1. convert dataset formate to xtuner formate, for example:  
+    1. convert dataset formate to xtuner formate, for example:
+   
     ```
     def oasst1_map_fn(example):
         r"""Example before preprocessing:
@@ -81,6 +86,7 @@
         return {'conversation': conversation}
     
     ```
+    
    2. add system prompt, and convert to template format
     
     ```
@@ -106,12 +112,14 @@
     def template_map_fn_factory(template):
         return partial(template_map_fn, template=template)
     ```
+    
    d. evaluation matrix 
 
    e. select traing speedup
       1. Adapter 
       2. LoRA or QLoRA
       training LoRA
+
       ```
       from peft import LoraConfig, TaskType
       lora_config = LoraConfig(
@@ -138,12 +146,14 @@
        ```
 
         quantation of optimizer
+   
       ```
       from bitsandbytes.optim import PagedAdamW32bit
       ```
       
       5. Framework: directly optimize memory and optimization--deepspeed: model scale, speed, scalibility
-      ```
+
+     ```
       from transformers.integrations import HfDeepSpeedConfig
       from transformers import AutoModel
       import deepspeed
@@ -154,7 +164,8 @@
       model = AutoModel.from_pretrained("openai-community/gpt2")
       engine = deepspeed.initialize(model=model, config_params=ds_config, ...)
       deepspeed --num_gpus=2 your_program.py <normal cl args> --do_eval --deepspeed ds_config.json
-      ```
+
+     ```
       
    f. inference speed up 
       1. Quantation to reduce the number of bits: GPU-AWQ/GPTQ, CPU-GGUF/GGML
