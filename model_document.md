@@ -95,10 +95,25 @@ The configurations of quantization and LoRa are shown below:
 <br> In general pretrained large language model are evaluation through widly used benchmark datasets including Alpaca etc.. Here, the test poration of the original dataset is used for evaluation the performnace. In addition, the evaluation metrix including exact match, blue score and rouge score. Meanwhile, temperature, and topk and topp can be tuned to to boost the performance.
 
 9. Challenging Debugging Parts
-   <br> a.tokenizer problem
-   <br> b.weight and bias problem.
+<br> weight&bias and deepspeed will give the following bug ```AttributeError: 'Accelerator' object has no attribute 'deepspeed_config```, if ```os.environ["WANDB_LOG_MODEL"] =  "checkpoint" ```, for which the information is very confusing. It takes me long to understand why this is the case, because before start tracking with weight&bias, I did not see the problem. Though check the model sections by sections, I find the problem is either from deepspeed or from weight&bias. And eventually find the solution: set ```os.environ["WANDB_LOG_MODEL"] = False```
 
 #### Langchain RAG and Gradio Deployment
-a.build vector database: the chunk size should be approperate.
-b.LLmodel
+1.Build vector database
+<br> build vector database use Langchain framework is very straight forward. Read the file, and split into chunks. Then load an embedding model to 
+
+```
+    from langchain.vectorstores import Chroma
+    embeddings = HuggingFaceEmbeddings(model_name="/root/data/model/sentence-transformer")
+
+    persist_directory = 'data_base/vector_db/chroma'
+
+    vectordb = Chroma.from_documents(
+        documents=split_docs,
+        embedding=embeddings,
+        persist_directory=persist_directory  # 允许我们将persist_directory目录保存到磁盘上
+    )
+```
+
+b.LLM
+
 c.gradio deployment
