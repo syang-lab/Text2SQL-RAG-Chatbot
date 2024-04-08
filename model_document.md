@@ -69,13 +69,34 @@ The configurations of quantization and LoRa are shown below:
 ```
 
 5. Training Speedup and Experiments
-The deepspeed stage 2 is used for speedup training and model offload from GPU to CPU. Deepspeed is setup through the configuration file as shown below:
+<br> The deepspeed stage 2 is used for speedup training and model offload from GPU to CPU. Deepspeed is setup through the configuration file as shown below:
+```
+  deepspeed:
+    communication_data_type: fp16
+    gradient_accumulation_steps: auto
+    gradient_clipping: auto
+    train_batch_size: auto
+    train_micro_batch_size_per_gpu: auto
+    zero_optimization:
+      allgather_bucket_size: 500000000.0
+      allgather_partitions: true
+      contiguous_gradients: true
+      offload_optimizer:
+        device: cpu
+        pin_memory: true
+      overlap_comm: true
+      reduce_bucket_size: 500000000.0
+      reduce_scatter: true
+      round_robin_gradients: true
+      stage: 2
+```
 
+6. Evaluation Matrix
+<br> In general pretrained large language model are evaluation through widly used benchmark datasets including Alpaca etc.. Here, the test poration of the original dataset is used for evaluation the performnace. In addition, the evaluation metrix including exact match, blue score and rouge score. Meanwhile, temperature, and topk and topp can be tuned to to boost the performance.
 
-
-
-7. Evaluation Matrix
-8. Challenged: challenging parts: a.tokenizer problem b.weight and bias problem.
+9. Challenging Debugging Parts
+   <br> a.tokenizer problem
+   <br> b.weight and bias problem.
 
 #### Langchain RAG and Gradio Deployment
 a.build vector database: the chunk size should be approperate.
