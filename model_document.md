@@ -8,20 +8,20 @@ This project contains two parts:
 1. Data Preprocessing
 <br>For instruction fine-tuning, an additional step required is to make the dataset following the Llama template. The template can be changed in general, but used the original template that Llama has been trained on will help obtain better performance.
 
-    ```
+```
     <s>[INST] B_SYS SystemPrompt E_SYS Prompt [/INST] Answer </s><s>[INST] Prompt [/INST] Answer </s> 
     <s>[INST] Prompt [/INST] ....
-    ```
+```
     
 The code corresponds to applying the template:
 
-    ```
+```
         system_prompt = (
         "You are a helpful programmer assistant that excels at SQL. "
         "When prompted with a task and a definition of an SQL table, you "
         "respond with a SQL query to retrieve information from the table. "
         "Don't explain your reasoning, only provide the SQL query."
-    )
+        )
 
     user_prompt = "Task: {instruction}\nSQL table: {input}\nSQL query: "
 
@@ -31,9 +31,8 @@ The code corresponds to applying the template:
     ]
 
     output.append({"role": "assistant", "content": element["response"]})
-    
     formatted=tokenizer.apply_chat_template(output, tokenize=False)
-    ```
+```
     
 3. Model Memory Reduction and Speedup
 <br>Training Llama 7B model will require (AdamW  8 bytes per parameter * 7 billion parameters) 56 GB of GPU memory with full precision. To reduce the memory consumption and speedup the training speed, exploying Quantation and LoRa method concurrently. The resulting number of trainable parameters is about 2.8 billion.
@@ -43,9 +42,8 @@ The code corresponds to applying the template:
 The following codes take the configuration of quantization and LoRa. 
 
 ```
-model = AutoModelForCausalLM.from_pretrained(model_id, quantization_config=quantization_config, device_map="auto")
-
-model = get_peft_model(model, peft_config)
+    model = AutoModelForCausalLM.from_pretrained(model_id, quantization_config=quantization_config, device_map="auto")
+    model = get_peft_model(model, peft_config)
 
 ```
 
@@ -90,6 +88,8 @@ The configurations of quantization and LoRa are shown below:
       round_robin_gradients: true
       stage: 2
 ```
+
+![training_loss](training_loss.png)
 
 6. Evaluation Matrix
 <br> In general pretrained large language model are evaluation through widly used benchmark datasets including Alpaca etc.. Here, the test poration of the original dataset is used for evaluation the performnace. In addition, the evaluation metrix including exact match, blue score and rouge score. Meanwhile, temperature, and topk and topp can be tuned to to boost the performance.
@@ -136,8 +136,8 @@ Then pass the model and vector database to the RetrievalQA:
             chain_type_kwargs={"prompt":QA_CHAIN_PROMPT})
 ```
 
-
 3.Gradio Deployment
+![gradio_deployment](gradio_deployment.png)
 
 
 
