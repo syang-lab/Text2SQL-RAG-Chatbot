@@ -95,11 +95,11 @@ The configurations of quantization and LoRa are shown below:
 <br> In general pretrained large language model are evaluation through widly used benchmark datasets including Alpaca etc.. Here, the test poration of the original dataset is used for evaluation the performnace. In addition, the evaluation metrix including exact match, blue score and rouge score. Meanwhile, temperature, and topk and topp can be tuned to to boost the performance.
 
 9. Challenging Debugging Parts
-<br> weight&bias and deepspeed will give the following bug ```AttributeError: 'Accelerator' object has no attribute 'deepspeed_config```, if ```os.environ["WANDB_LOG_MODEL"] =  "checkpoint" ```, for which the information is very confusing. It takes me long to understand why this is the case, because before start tracking with weight&bias, I did not see the problem. Though check the model sections by sections, I find the problem is either from deepspeed or from weight&bias. And eventually find the solution: set ```os.environ["WANDB_LOG_MODEL"] = False```
+<br> Weight&bias and deepspeed will give the following bug ```AttributeError: 'Accelerator' object has no attribute 'deepspeed_config```, if ```os.environ["WANDB_LOG_MODEL"] =  "checkpoint" ```, for which the information is very confusing. It takes me long to understand why this is the case, because before start tracking with weight&bias, I did not see the problem. Though check the model sections by sections, I find the problem is either from deepspeed or from weight&bias. And eventually find the solution: set ```os.environ["WANDB_LOG_MODEL"] = False```
 
 #### Langchain RAG and Gradio Deployment
 1.Build vector database
-<br> build vector database use Langchain framework is very straight forward. Read the file, and split into chunks. Then load an embedding model to 
+<br> Build vector database use Langchain framework is very straight forward. Read the file, and split into chunks. Then load an embedding model to 
 
 ```
     from langchain.vectorstores import Chroma
@@ -114,6 +114,33 @@ The configurations of quantization and LoRa are shown below:
     )
 ```
 
-b.LLM
+2. Create LLM Model 
+<br> The model should inherent the LLM model in langchain
 
-c.gradio deployment
+```
+    from langchain.llms.base import LLM
+    class SQL_LLM(LLM):
+        tokenizer : AutoTokenizer = None
+        model: AutoModelForCausalLM = None
+        ...
+```
+
+3. Add Information to Prompt
+Then pass the model and vector database to the RetrievalQA:
+
+```
+    from langchain.chains import RetrievalQA
+    qa_chain = RetrievalQA.from_chain_type(llm,
+            retriever=vectordb.as_retriever(search_type="similarity_score_threshold", search_kwargs={"score_threshold": 0.8}),
+            return_source_documents=True,
+            chain_type_kwargs={"prompt":QA_CHAIN_PROMPT})
+```
+
+
+3.Gradio Deployment
+
+
+
+
+
+
