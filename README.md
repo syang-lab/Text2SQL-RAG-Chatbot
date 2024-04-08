@@ -1,4 +1,3 @@
-### HW1
 ### LLM Application Working Flow:
 
 ![LLM Application Working Flow](LLM-Application-Working-Flow.png)
