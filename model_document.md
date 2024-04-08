@@ -6,12 +6,13 @@ This project contains two parts:
 
 #### Instruction fine-tuning Llama model on Text-to-SQL dataset.
 1. Data Preprocessing
-For instruction fine-tuning, an additional step required is to make the dataset following the Llama template. The template can be changed in general, but used the original template that Llama has been trained on will help obtain better performance.
+<br>For instruction fine-tuning, an additional step required is to make the dataset following the Llama template. The template can be changed in general, but used the original template that Llama has been trained on will help obtain better performance.
 
     ```
     <s>[INST] B_SYS SystemPrompt E_SYS Prompt [/INST] Answer </s><s>[INST] Prompt [/INST] Answer </s> 
     <s>[INST] Prompt [/INST] ....
     ```
+    
 The code corresponds to applying the template:
 
     ```
@@ -32,12 +33,10 @@ The code corresponds to applying the template:
     output.append({"role": "assistant", "content": element["response"]})
     
     formatted=tokenizer.apply_chat_template(output, tokenize=False)
-      
     ```
     
 3. Model Memory Reduction and Speedup
-Training Llama 7B model will require (AdamW  8 bytes per parameter * 7 billion parameters) 56 GB of GPU memory with full precision. To reduce the memory consumption and speedup the training speed, exploying Quantation and LoRa method concurrently. The resulting number of trainable parameters is about 2.8 billion.
-
+<br>Training Llama 7B model will require (AdamW  8 bytes per parameter * 7 billion parameters) 56 GB of GPU memory with full precision. To reduce the memory consumption and speedup the training speed, exploying Quantation and LoRa method concurrently. The resulting number of trainable parameters is about 2.8 billion.
 <br> a.Quantation method: representing weights and activations with lower-precision data types like 8-bit integers (int8)
 <br> b.LoRa: inserting a smaller number of new weights into the model and only these are trained.
 
@@ -53,7 +52,6 @@ model = get_peft_model(model, peft_config)
 The configurations of quantization and LoRa are shown below: 
 
 ```
-
   peft_config:
     lora_alpha: 16
     lora_dropout: 0.1
@@ -68,13 +66,16 @@ The configurations of quantization and LoRa are shown below:
     llm_int8_threshold: 6.0
     load_in_4bit: true
     load_in_8bit: false
-
 ```
 
-
 5. Training Speedup and Experiments
-6. Evaluation Matrix
-7. Challenged: challenging parts: a.tokenizer problem b.weight and bias problem.
+The deepspeed stage 2 is used for speedup training and model offload from GPU to CPU. Deepspeed is setup through the configuration file as shown below:
+
+
+
+
+7. Evaluation Matrix
+8. Challenged: challenging parts: a.tokenizer problem b.weight and bias problem.
 
 #### Langchain RAG and Gradio Deployment
 a.build vector database: the chunk size should be approperate.
