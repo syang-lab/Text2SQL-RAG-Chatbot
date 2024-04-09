@@ -214,6 +214,7 @@ what does this mean? pad_token_id=tokenizer.eos_token_id
 ![generate a story](HW2.png)
 ![download modek](HW2-1.png)
 
+apt update -y
 #tmux 
 apt install tmux -y
 #create session
