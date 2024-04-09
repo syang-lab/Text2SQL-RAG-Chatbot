@@ -35,7 +35,7 @@ The code corresponds to applying the template:
 ```
     
 3. Model Memory Reduction and Speedup
-<br> Training the Llama 7B model necessitates 56 GB of GPU memory with full precision, calculated as (8 bytes per parameter * 7 billion parameters, assuming AdamW optimizer). To mitigate memory consumption and accelerate training, we concurrently employ Quantization and LoRA methods. This approach reduces the number of trainable parameters to approximately 2.8 billion.
+<br> Training the Llama 7B model necessitates 56 GB of GPU memory with full precision, calculated as (8 bytes per parameter * 7 billion parameters, assuming AdamW optimizer). To mitigate memory consumption and accelerate training, we concurrently employ Quantization and LoRA methods. This approach reduces the number of trainable parameters to approximately 3.5 billion.
 <br> a.Quantization method involves representing weights and activations using lower-precision data types such as 8-bit integers (int8).
 <br> b.LoRA involves inserting a smaller number of new weights into the model, and only these weights are trained.
 
