@@ -6,7 +6,7 @@ This project contains two parts:
 
 #### Instruction fine-tuning Llama model on Text-to-SQL dataset.
 1. Data Preprocessing
-<br>For instruction fine-tuning, an additional step required is to make the dataset following the Llama template. The template can be changed in general, but used the original template that Llama has been trained on will help obtain better performance.
+<br>To fine-tune the instructions, an extra step beyond tokenizing the text involves structuring the dataset according to the Llama template. Although the template can be adapted, utilizing the original template on which Llama was trained is likely to yield better performance.
 
 ```
     <s>[INST] B_SYS SystemPrompt E_SYS Prompt [/INST] Answer </s><s>[INST] Prompt [/INST] Answer </s> 
@@ -35,20 +35,18 @@ The code corresponds to applying the template:
 ```
     
 3. Model Memory Reduction and Speedup
-<br>Training Llama 7B model will require (AdamW  8 bytes per parameter * 7 billion parameters) 56 GB of GPU memory with full precision. To reduce the memory consumption and speedup the training speed, exploying Quantation and LoRa method concurrently. The resulting number of trainable parameters is about 2.8 billion.
-<br> a.Quantation method: representing weights and activations with lower-precision data types like 8-bit integers (int8)
-<br> b.LoRa: inserting a smaller number of new weights into the model and only these are trained.
+<br> Training the Llama 7B model necessitates 56 GB of GPU memory with full precision, calculated as (8 bytes per parameter * 7 billion parameters, assuming AdamW optimizer). To mitigate memory consumption and accelerate training, we concurrently employ Quantization and LoRA methods. This approach reduces the number of trainable parameters to approximately 2.8 billion.
+<br> a.Quantization method involves representing weights and activations using lower-precision data types such as 8-bit integers (int8).
+<br> b.LoRA involves inserting a smaller number of new weights into the model, and only these weights are trained.
 
-The following codes take the configuration of quantization and LoRa. 
-
+The following code demonstrates how to utilize configurations for quantization and LoRa:
 ```
     model = AutoModelForCausalLM.from_pretrained(model_id, quantization_config=quantization_config, device_map="auto")
     model = get_peft_model(model, peft_config)
 
 ```
 
-The configurations of quantization and LoRa are shown below: 
-
+Here are the configurations for quantization and LoRa:
 ```
   peft_config:
     lora_alpha: 16
@@ -66,8 +64,8 @@ The configurations of quantization and LoRa are shown below:
     load_in_8bit: false
 ```
 
-5. Training Speedup and Experiments
-<br> The deepspeed stage 2 is used for speedup training and model offload from GPU to CPU. Deepspeed is setup through the configuration file as shown below:
+5. Speeding Up Training and Conducting Experiments
+<br> The DeepSpeed Stage 2 is utilized to accelerate training and offload the model from GPU to CPU. DeepSpeed is configured through the configuration file as shown below:
 ```
   deepspeed:
     communication_data_type: fp16
@@ -92,14 +90,14 @@ The configurations of quantization and LoRa are shown below:
 ![training_loss](training_loss.png)
 
 6. Evaluation Matrix
-<br> In general pretrained large language model are evaluation through widly used benchmark datasets including Alpaca etc.. Here, the test poration of the original dataset is used for evaluation the performnace. In addition, the evaluation metrix including exact match, blue score and rouge score. Meanwhile, temperature, and topk and topp can be tuned to to boost the performance.
+<br> In general, pretrained large language models are evaluated through widely used benchmark datasets such as Alpaca, among others. Here, to assess the results of instruction fine-tuning, the test portion of the original dataset is utilized to evaluate performance. Additionally, evaluation metrics include exact match, BLEU score, and ROUGE score. Meanwhile, parameters such as temperature, top-k, and top-p can be tuned to enhance performance.
 
 9. Challenging Debugging Parts
-<br> Weight&bias and deepspeed will give the following bug ```AttributeError: 'Accelerator' object has no attribute 'deepspeed_config```, if ```os.environ["WANDB_LOG_MODEL"] =  "checkpoint" ```, for which the information is very confusing. It takes me long to understand why this is the case, because before start tracking with weight&bias, I did not see the problem. Though check the model sections by sections, I find the problem is either from deepspeed or from weight&bias. And eventually find the solution: set ```os.environ["WANDB_LOG_MODEL"] = False```
+<br> When integrated together Weight&bias and DeepSpeed may encounter the bug "AttributeError: 'Accelerator' object has no attribute 'deepspeed_config'" when setting "os.environ["WANDB_LOG_MODEL"] = "checkpoint"". This issue is confusing. However, after scrutinizing the model section by section, it becomes evident that the problem originates from either DeepSpeed or Weight&bias. The eventual solution set "os.environ["WANDB_LOG_MODEL"] = False". This resolves the issue and prevents the bug from occurring.
 
 #### Langchain RAG and Gradio Deployment
-1.Build vector database
-<br> Build vector database use Langchain framework is very straight forward. Read the file, and split into chunks. Then load an embedding model to 
+1.Build Vector Database
+<br> Building a vector database using the Langchain framework is straightforward. Begin by reading the file and splitting it into chunks. Then, load an embedding model and docs into Chroma.
 
 ```
     from langchain.vectorstores import Chroma
@@ -115,7 +113,7 @@ The configurations of quantization and LoRa are shown below:
 ```
 
 2. Create LLM Model 
-<br> The model should inherent the LLM model in langchain
+<br> The model should inherit the LLM (Large Language Model) model in Langchain.
 
 ```
     from langchain.llms.base import LLM
@@ -126,7 +124,7 @@ The configurations of quantization and LoRa are shown below:
 ```
 
 3. Add Information to Prompt
-Then pass the model and vector database to the RetrievalQA:
+Then pass the model and vector database to the RetrievalQA module.
 
 ```
     from langchain.chains import RetrievalQA
