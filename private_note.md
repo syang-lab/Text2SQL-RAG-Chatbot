@@ -149,7 +149,7 @@
       ```
       from bitsandbytes.optim import PagedAdamW32bit
       ```
-      
+      量化的最主要目的是降低显存占用，主要包括两方面的显存：模型参数和中间过程计算结果。前者对应《3.2 W4A16 量化》，后者对应《3.1 KV Cache 量化》。 量化在降低显存的同时，一般还能带来性能的提升，因为更小精度的浮点数要比高精度的       浮点数计算效率高，而整型要比浮点数高很多。
       5. Framework: directly optimize memory and optimization--deepspeed: model scale, speed, scalibility
 
      ```
@@ -183,36 +183,7 @@
     
 2. Evalution Matrix
 
-#### Ablation Study
-
-- [x] 1.download hugging face pretrained model
-- [x] 2.download dataset
-- [x] 3.run the training
-- [x] 4.why the evaluation model is so wired? can not evaluate the performance. Unless use the evaluation dataset. 
-- [x] 7.Modify to flexiable framework for training and deployment. This could be much simpler. The frame work wrapped too much, reduce the flexibility.
-- [x] 8.How does the traininer know to only tune the weight for LoRA? make only the LoRA weight trainable
-- [x] quantation, deepspeed:stage2 speedip+offload, LoRA, weight&bias.
-- [x] Optimize inference(with repeate poration of input, how do you deal with it) and evaluation, take argparse, use model to build RAG.
-- [x] 1.tokenizer return tensor=="pt", 2.evaluation takes more time, case GPU OOM. 3.optimizer not compatable. 4.inference with repeate poration of input, how do you deal with it? and evaluation. maybe use a different version of transformer for inference. and evaluation! https://wandb.ai/ayush-thakur/llm-eval-sweep/reports/How-to-Evaluate-Compare-and-Optimize-LLM-Systems--Vmlldzo0NzgyMTQz
-    evaluation also requires finetunning parameters.
-- [x] push to model hub, hold on hugging facespace?GPU? what are the temperature used for evaluation? need to select.
-- [ ] RAG and setconfig to the code
-- [ ] write a blog
-
-#### LlamA2
-1.training use bfloat16
-2.add token We can’t have the same logic, make sure to add a padding token using tokenizer.add_special_tokens({"pad_token":"<pad>"}) and resize the token embedding accordingly. You should also set the model.config.pad_token_id. The embed_tokens layer of the model is initialized with self.embed_tokens = nn.Embedding(config.vocab_size, config.hidden_size, self.config.padding_idx), which makes sure that encoding the padding token will output zeros, so passing it when initializing is recommended.
-what does this mean? pad_token_id=tokenizer.eos_token_id
-
-3.sentense peice tokenizer
-
-4.attn_implementation="flash_attention_2", don’t pass torch_dtype to the from_pretrained class method and use Automatic Mixed-Precision training. When using Trainer, it is simply specifying either fp16 or bf16 to True. Otherwise, make sure you are using torch.autocast. This is required because the Flash Attention only support fp16 and bf16 data type.
-
-5.template
-
-#### HW2
-![generate a story](HW2.png)
-![download modek](HW2-1.png)
+#### Ablation Stud
 
 apt update -y
 #tmux 
