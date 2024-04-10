@@ -1,7 +1,3 @@
-### LLM Application Working Flow:
-
-![LLM Application Working Flow](LLM-Application-Working-Flow.png)
-
 ### LLM Model
 #### Pretrained LLM Model
 1. Model Selection 
@@ -181,11 +177,14 @@
 1. Evaluation Benchmark Dataset 
     1. Performance on Downstream Tasks:(1) 全面测试(),(2) 语言和知识,(3) 推理和数学,(4) 多种编程语言编程,(5) 长文本建模,(6) 工具利用。
     2. Performance on Alignment: 评估模型的对齐能力对于判断LLMs是否真正满足人类需求至关重要。
-    
+
+斯坦福大学提出了较为系统的评测框架HELM，从准确性，安全性，鲁棒性和公平性等维度开展模型评测。纽约大学联合谷歌和Meta提出了SuperGLUE评测集，从推理能力，常识理解，问答能力等方面入手，构建了包括8个子任务的大语言模型评测数据集。加州大学伯克利分校提出了MMLU测试集，构建了涵盖高中和大学的多项考试，来评估模型的知识能力和推理能力。谷歌也提出了包含数理科学，编程代码，阅读理解，逻辑推理等子任务的评测集Big-Bench，涵盖200多个子任务，对模型能力进行系统化的评估。在中文评测方面，国内的学术机构也提出了如CLUE,CUGE等评测数据集，从文本分类，阅读理解，逻辑推理等方面评测语言模型的中文能力。
+
+
 2. Evalution Matrix
 
 #### Ablation Stud
-
+#### tmux 
 apt update -y
 #tmux 
 apt install tmux -y
