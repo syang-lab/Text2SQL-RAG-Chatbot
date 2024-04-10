@@ -149,7 +149,8 @@
       ```
       from bitsandbytes.optim import PagedAdamW32bit
       ```
-      量化的最主要目的是降低显存占用，主要包括两方面的显存：模型参数和中间过程计算结果。前者对应《3.2 W4A16 量化》，后者对应《3.1 KV Cache 量化》。 量化在降低显存的同时，一般还能带来性能的提升，因为更小精度的浮点数要比高精度的       浮点数计算效率高，而整型要比浮点数高很多。
+      <br> 量化的最主要目的是降低显存占用，主要包括两方面的显存：模型参数和中间过程计算结果。前者对应《3.2 W4A16 量化》，后者对应《3.1 KV Cache 量化》。
+      <br> 量化在降低显存的同时，一般还能带来性能的提升，因为更小精度的浮点数要比高精度的浮点数计算效率高，而整型要比浮点数高很多。
       5. Framework: directly optimize memory and optimization--deepspeed: model scale, speed, scalibility
 
      ```
