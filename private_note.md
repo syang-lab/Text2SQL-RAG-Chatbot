@@ -194,7 +194,8 @@ apt install tmux -y
 tmux new -s exp1
 #return to original enviroment 
 control+b d
-#tmux attach exp1
+#tmux attach -t exp1
+#tmux list-sessions
 
 
 
