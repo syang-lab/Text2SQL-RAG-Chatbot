@@ -187,15 +187,15 @@
 
 #### Ablation Stud
 #### tmux 
-apt update -y
-#tmux 
-apt install tmux -y
-#create session
+*apt update -y
+#### tmux 
+*apt install tmux -y
+#### create session
 tmux new -s exp1
-#return to original enviroment 
+#### return to original enviroment 
 control+b d
-#tmux attach -t exp1
-#tmux list-sessions
+#### tmux attach -t exp1
+#### tmux list-sessions
 
 
 
