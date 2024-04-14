@@ -91,6 +91,9 @@ Here are the configurations for quantization and LoRa:
 
 6. Evaluation Matrix
 <br> In general, pretrained large language models are evaluated through widely used benchmark datasets such as Alpaca, among others. Here, to assess the results of instruction fine-tuning, the test portion of the original dataset is utilized to evaluate performance. Additionally, evaluation metrics include exact match, BLEU score, and ROUGE score. Meanwhile, parameters such as temperature, top-k, and top-p can be tuned to enhance performance.
+<br> exact_match: 0.64
+<br> {'bleu': 0.8844392745443108, 'precisions': [0.9339947155890124, 0.8958497297864526, 0.8676560163907193, 0.8428395568321707], 'brevity_penalty': 1.0, 'length_ratio': 1.0060183559857565, 'translation_length': 20059, 'reference_length': 19939}
+<br> {'rouge1': 0.9533476025074805, 'rouge2': 0.9101303174976019, 'rougeL': 0.941895090051721, 'rougeLsum': 0.9416573132482544}
 
 9. Challenging Debugging Parts
 <br> When integrated together Weight&bias and DeepSpeed may encounter the bug "AttributeError: 'Accelerator' object has no attribute 'deepspeed_config'" when setting "os.environ["WANDB_LOG_MODEL"] = "checkpoint"". This issue is confusing. However, after scrutinizing the model section by section, it becomes evident that the problem originates from either DeepSpeed or Weight&bias. The eventual solution set "os.environ["WANDB_LOG_MODEL"] = False". This resolves the issue and prevents the bug from occurring.
@@ -138,6 +141,9 @@ Then pass the model and vector database to the RetrievalQA module.
 
 3.Gradio Deployment
 ![gradio_deployment](gradio_deployment.png)
+
+
+
 
 
 
