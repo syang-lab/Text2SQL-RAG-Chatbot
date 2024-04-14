@@ -196,6 +196,7 @@ tmux new -s exp1
 control+b d
 #### tmux attach -t exp1
 #### tmux list-sessions
+* 1.change the map, apply tokenizer default template, do not apply tokenizer. * 2. put tokenizer to trainer 
 
 
 
