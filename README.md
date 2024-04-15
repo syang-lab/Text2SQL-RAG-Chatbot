@@ -13,7 +13,7 @@ This project contains two parts:
     <s>[INST] Prompt [/INST] ....
 ```
     
-The code corresponds to applying the template:
+<br> The code corresponds to applying the template:
 
 ```
         system_prompt = (
@@ -39,14 +39,14 @@ The code corresponds to applying the template:
 <br> a.Quantization method involves representing weights and activations using lower-precision data types such as 8-bit integers (int8).
 <br> b.LoRA involves inserting a smaller number of new weights into the model, and only these weights are trained.
 
-The following code demonstrates how to utilize configurations for quantization and LoRa:
+<br> The following code demonstrates how to utilize configurations for quantization and LoRa:
 ```
     model = AutoModelForCausalLM.from_pretrained(model_id, quantization_config=quantization_config, device_map="auto")
     model = get_peft_model(model, peft_config)
 
 ```
 
-Here are the configurations for quantization and LoRa:
+<br> Here are the configurations for quantization and LoRa:
 ```
   peft_config:
     lora_alpha: 16
@@ -64,7 +64,7 @@ Here are the configurations for quantization and LoRa:
     load_in_8bit: false
 ```
 
-5. Speeding Up Training and Conducting Experiments
+4. Speeding Up Training and Conducting Experiments
 <br> The DeepSpeed Stage 2 is utilized to accelerate training and offload the model from GPU to CPU. DeepSpeed is configured through the configuration file as shown below:
 ```
   deepspeed:
@@ -89,29 +89,31 @@ Here are the configurations for quantization and LoRa:
 
 ![training_loss](training_loss.png)
 
-6. Evaluation Matrix
+5. Evaluation Matrix
 <br> In general, pretrained large language models are evaluated through widely used benchmark datasets such as Alpaca, among others. Here, to assess the results of instruction fine-tuning, the test portion of the original dataset is utilized to evaluate performance. Additionally, evaluation metrics include exact match, BLEU score, and ROUGE score. Meanwhile, parameters such as temperature, top-k, and top-p can be tuned to enhance performance.
-<br> * Llama Model without finetuning
-<br> prediction and label example:
-    <br> preds ["SELECT * FROM table_name_99 WHERE year = 'Pazz & Jop';"]
-    <br> labels ['SELECT year FROM table_name_99 WHERE publication = "pazz & jop"']
-<br> exact_match: 0.0
-<br> {'bleu': 0.49, 'precisions': [0.64, 0.51, 0.44, 0.38], 'brevity_penalty': 1.0, 'length_ratio': 1.10}
-<br> {'rouge1': 0.85, 'rouge2': 0.71, 'rougeL': 0.81, 'rougeLsum': 0.81}
-<br> * Funtuned Llama Model:
-<br> prediction and label example:
-    <br> preds ['SELECT year FROM table_name_99 WHERE publication = "pazz & jop"']
-    <br> labels ['SELECT year FROM table_name_99 WHERE publication = "pazz & jop"']
-<br> exact_match: 0.64
-<br> {'bleu': 0.88, 'precisions': [0.93, 0.90, 0.87, 0.84], 'brevity_penalty': 1.0, 'length_ratio': 1.00}
-<br> {'rouge1': 0.95, 'rouge2': 0.91, 'rougeL': 0.94, 'rougeLsum': 0.94}
+    
+    a. Llama Model without finetuning
+        <br> prediction and label examples:
+        <br> preds ["SELECT * FROM table_name_99 WHERE year = 'Pazz & Jop';"]
+        <br> labels ['SELECT year FROM table_name_99 WHERE publication = "pazz & jop"']
+        <br> exact_match: 0.0
+        <br> {'bleu': 0.49, 'precisions': [0.64, 0.51, 0.44, 0.38], 'brevity_penalty': 1.0, 'length_ratio': 1.10}
+        <br> {'rouge1': 0.85, 'rouge2': 0.71, 'rougeL': 0.81, 'rougeLsum': 0.81}
+        
+     b. Funtuned Llama Model
+        <br> prediction and label example:
+        <br> preds ['SELECT year FROM table_name_99 WHERE publication = "pazz & jop"']
+        <br> labels ['SELECT year FROM table_name_99 WHERE publication = "pazz & jop"']
+        <br> exact_match: 0.64
+        <br> {'bleu': 0.88, 'precisions': [0.93, 0.90, 0.87, 0.84], 'brevity_penalty': 1.0, 'length_ratio': 1.00}
+        <br> {'rouge1': 0.95, 'rouge2': 0.91, 'rougeL': 0.94, 'rougeLsum': 0.94}
 
-9. Challenging Debugging Parts
+6. Challenging Debugging Parts
     <br>a. When integrated together Weight&bias and DeepSpeed may encounter the bug "AttributeError: 'Accelerator' object has no attribute 'deepspeed_config'" when setting "os.environ["WANDB_LOG_MODEL"] = "checkpoint"". This issue is confusing. However, after scrutinizing the model section by section, it becomes evident that the problem originates from either DeepSpeed or Weight&bias. The eventual solution set "os.environ["WANDB_LOG_MODEL"] = False". This resolves the issue and prevents the bug from occurring.
     <br>b. Do not use DataCollatorForLanguageModeling for llama when eos_token_id=pad_token_id, because DataCollatorForLanguageModeling will replace all pad_token_id with -100, the model will not know where to end the sentense. And will continue generate tokens. Use the default datacollector instead if you set eos_token_id=pad_token_id. 
 
 #### Langchain RAG and Gradio Deployment
-1.Build Vector Database
+1. Build Vector Database
 <br> Building a vector database using the Langchain framework is straightforward. Begin by reading the file and splitting it into chunks. Then, load an embedding model and docs into Chroma.
 
 ```
@@ -139,7 +141,7 @@ Here are the configurations for quantization and LoRa:
 ```
 
 3. Add Information to Prompt
-Then pass the model and vector database to the RetrievalQA module.
+<br> Then pass the model and vector database to the RetrievalQA module.
 
 ```
     from langchain.chains import RetrievalQA
@@ -149,7 +151,7 @@ Then pass the model and vector database to the RetrievalQA module.
             chain_type_kwargs={"prompt":QA_CHAIN_PROMPT})
 ```
 
-3.Gradio Deployment
+4. Gradio Deployment
 ![gradio_deployment](gradio_deployment.png)
 
 
