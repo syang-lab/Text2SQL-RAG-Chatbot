@@ -91,6 +91,11 @@ Here are the configurations for quantization and LoRa:
 
 6. Evaluation Matrix
 <br> In general, pretrained large language models are evaluated through widely used benchmark datasets such as Alpaca, among others. Here, to assess the results of instruction fine-tuning, the test portion of the original dataset is utilized to evaluate performance. Additionally, evaluation metrics include exact match, BLEU score, and ROUGE score. Meanwhile, parameters such as temperature, top-k, and top-p can be tuned to enhance performance.
+With Llama Model:
+exact_match: 0.0
+{'bleu': 0.4863216860450306, 'precisions': [0.6388156099335941, 0.51429524444868, 0.4436605623936756, 0.38375645212261666], 'brevity_penalty': 1.0, 'length_ratio': 1.1026631225236974, 'translation_length': 21986, 'reference_length': 19939}
+{'rouge1': 0.854123954584959, 'rouge2': 0.7109564110319829, 'rougeL': 0.8137496212409304, 'rougeLsum': 0.8147145518986424}
+Funtuned Llama Model:
 <br> exact_match: 0.64
 <br> {'bleu': 0.8844392745443108, 'precisions': [0.9339947155890124, 0.8958497297864526, 0.8676560163907193, 0.8428395568321707], 'brevity_penalty': 1.0, 'length_ratio': 1.0060183559857565, 'translation_length': 20059, 'reference_length': 19939}
 <br> {'rouge1': 0.9533476025074805, 'rouge2': 0.9101303174976019, 'rougeL': 0.941895090051721, 'rougeLsum': 0.9416573132482544}
