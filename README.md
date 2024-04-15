@@ -91,23 +91,24 @@ Here are the configurations for quantization and LoRa:
 
 6. Evaluation Matrix
 <br> In general, pretrained large language models are evaluated through widely used benchmark datasets such as Alpaca, among others. Here, to assess the results of instruction fine-tuning, the test portion of the original dataset is utilized to evaluate performance. Additionally, evaluation metrics include exact match, BLEU score, and ROUGE score. Meanwhile, parameters such as temperature, top-k, and top-p can be tuned to enhance performance.
-<br> Llama Model without finetuning: 
+<br> * Llama Model without finetuning
+<br> prediction and label example:
+    <br> preds ["SELECT * FROM table_name_99 WHERE year = 'Pazz & Jop';"]
+    <br> labels ['SELECT year FROM table_name_99 WHERE publication = "pazz & jop"']
 <br> exact_match: 0.0
-<br> preds ["SELECT * FROM table_name_99 WHERE year = 'Pazz & Jop';"]
-<br> labels ['SELECT year FROM table_name_99 WHERE publication = "pazz & jop"']
-<br> {'bleu': 0.4863216860450306, 'precisions': [0.6388156099335941, 0.51429524444868, 0.4436605623936756, 0.38375645212261666], 'brevity_penalty': 1.0, 'length_ratio': 1.1026631225236974, 'translation_length': 21986, 'reference_length': 19939}
-<br> {'rouge1': 0.854123954584959, 'rouge2': 0.7109564110319829, 'rougeL': 0.8137496212409304, 'rougeLsum': 0.8147145518986424}
-<br> Funtuned Llama Model:
+<br> {'bleu': 0.49, 'precisions': [0.64, 0.51, 0.44, 0.38], 'brevity_penalty': 1.0, 'length_ratio': 1.10}
+<br> {'rouge1': 0.85, 'rouge2': 0.71, 'rougeL': 0.81, 'rougeLsum': 0.81}
+<br> * Funtuned Llama Model:
+<br> prediction and label example:
+    <br> preds ['SELECT year FROM table_name_99 WHERE publication = "pazz & jop"']
+    <br> labels ['SELECT year FROM table_name_99 WHERE publication = "pazz & jop"']
 <br> exact_match: 0.64
-<br> preds ['SELECT year FROM table_name_99 WHERE publication = "pazz & jop"']
-<br> labels ['SELECT year FROM table_name_99 WHERE publication = "pazz & jop"']
-<br> {'bleu': 0.8844392745443108, 'precisions': [0.9339947155890124, 0.8958497297864526, 0.8676560163907193, 0.8428395568321707], 'brevity_penalty': 1.0, 'length_ratio': 1.0060183559857565, 'translation_length': 20059, 'reference_length': 19939}
-<br> {'rouge1': 0.9533476025074805, 'rouge2': 0.9101303174976019, 'rougeL': 0.941895090051721, 'rougeLsum': 0.9416573132482544}
+<br> {'bleu': 0.88, 'precisions': [0.93, 0.90, 0.87, 0.84], 'brevity_penalty': 1.0, 'length_ratio': 1.00}
+<br> {'rouge1': 0.95, 'rouge2': 0.91, 'rougeL': 0.94, 'rougeLsum': 0.94}
 
 9. Challenging Debugging Parts
-<br> When integrated together Weight&bias and DeepSpeed may encounter the bug "AttributeError: 'Accelerator' object has no attribute 'deepspeed_config'" when setting "os.environ["WANDB_LOG_MODEL"] = "checkpoint"". This issue is confusing. However, after scrutinizing the model section by section, it becomes evident that the problem originates from either DeepSpeed or Weight&bias. The eventual solution set "os.environ["WANDB_LOG_MODEL"] = False". This resolves the issue and prevents the bug from occurring.
-
-Do not use DataCollatorForLanguageModeling for llama when eos_token_id=pad_token_id, because DataCollatorForLanguageModeling will replace all pad_token_id with -100, the model will not know where to end the sentense. And will continue generate tokens. Use the default datacollector instead if you set eos_token_id=pad_token_id. 
+    <br>a. When integrated together Weight&bias and DeepSpeed may encounter the bug "AttributeError: 'Accelerator' object has no attribute 'deepspeed_config'" when setting "os.environ["WANDB_LOG_MODEL"] = "checkpoint"". This issue is confusing. However, after scrutinizing the model section by section, it becomes evident that the problem originates from either DeepSpeed or Weight&bias. The eventual solution set "os.environ["WANDB_LOG_MODEL"] = False". This resolves the issue and prevents the bug from occurring.
+    <br>b. Do not use DataCollatorForLanguageModeling for llama when eos_token_id=pad_token_id, because DataCollatorForLanguageModeling will replace all pad_token_id with -100, the model will not know where to end the sentense. And will continue generate tokens. Use the default datacollector instead if you set eos_token_id=pad_token_id. 
 
 #### Langchain RAG and Gradio Deployment
 1.Build Vector Database
