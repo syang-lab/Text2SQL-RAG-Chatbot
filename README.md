@@ -95,8 +95,8 @@ Here are the configurations for quantization and LoRa:
 <br> exact_match: 0.0
 <br> preds ["SELECT * FROM table_name_99 WHERE year = 'Pazz & Jop';"]
 <br> labels ['SELECT year FROM table_name_99 WHERE publication = "pazz & jop"']
-{'bleu': 0.4863216860450306, 'precisions': [0.6388156099335941, 0.51429524444868, 0.4436605623936756, 0.38375645212261666], 'brevity_penalty': 1.0, 'length_ratio': 1.1026631225236974, 'translation_length': 21986, 'reference_length': 19939}
-{'rouge1': 0.854123954584959, 'rouge2': 0.7109564110319829, 'rougeL': 0.8137496212409304, 'rougeLsum': 0.8147145518986424}
+<br> {'bleu': 0.4863216860450306, 'precisions': [0.6388156099335941, 0.51429524444868, 0.4436605623936756, 0.38375645212261666], 'brevity_penalty': 1.0, 'length_ratio': 1.1026631225236974, 'translation_length': 21986, 'reference_length': 19939}
+<br> {'rouge1': 0.854123954584959, 'rouge2': 0.7109564110319829, 'rougeL': 0.8137496212409304, 'rougeLsum': 0.8147145518986424}
 <br> Funtuned Llama Model:
 <br> exact_match: 0.64
 <br> preds ['SELECT year FROM table_name_99 WHERE publication = "pazz & jop"']
