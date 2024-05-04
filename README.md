@@ -3,6 +3,7 @@ This project contains two parts:
 1. Instruction fine-tuning Llama model on Text-to-SQL dataset.
 2. Constructed a vector database to enhance Llama’s performance utilizing the Retrieval-Augmented Generation (RAG) technique and the Langchain framework. And developed a Gradio chat web demo.
 ![download model](model_overview.png)
+3. Best model pushed to huggingface: https://huggingface.co/SHSH0819/Text2SQL-llama2/tree/main
 
 #### Instruction fine-tuning Llama model on Text-to-SQL dataset.
 1. Data Preprocessing
