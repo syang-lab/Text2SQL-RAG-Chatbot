@@ -26,10 +26,8 @@ def sql_map_fn(element, tokenizer,with_assistant_response,tokenizer_config):
     output.append({"role": "assistant", "content": element["response"]})
     
     formatted=tokenizer.apply_chat_template(output, tokenize=False)
-    output_ids=tokenizer(formatted,**tokenizer_config)
-
-    return {"input_ids": output_ids["input_ids"],
-            "attention_mask": output_ids["attention_mask"]}
+    output_ids=tokenizer(formatted, max_length=tokenizer_config["max_length"], padding=tokenizer_config["padding"], truncation=tokenizer_config["truncation"])
+    return {"input_ids": output_ids["input_ids"], "attention_mask": output_ids["attention_mask"], "label_ids": output_ids["input_ids"]}
 
 
 def inf_map_fn(element, tokenizer):

@@ -34,13 +34,15 @@ def evaluation(dataset, tokenizer, model, generation_config):
     preds=list()
     labels=list()
     for item in dataset["test"]:
-        length=len(item["input_formated"])-1
         input_ids=tokenizer(item["input_formated"],return_tensors="pt").to("cuda")    
         outputs = model.generate(input_ids["input_ids"], eos_token_id=tokenizer.eos_token_id, max_new_tokens=generation_config["max_new_tokens"], do_sample=True, top_p=generation_config["top_p"], temperature=generation_config["top_p"])
         response = tokenizer.batch_decode(outputs, skip_special_tokens=True, clean_up_tokenization_spaces=False)
-        preds.append(response[0][length:])
+        idx=response[0].index("[/INST]")
+        preds.append(response[0][idx+len("[/INST]"):].lstrip().rstrip())
         labels.append(item["response"])
-        break
+        print("preds",preds)
+        print("labels",labels)
+        break 
 
     match_scores=exact_match.compute(predictions=preds, references=labels,ignore_punctuation=True)
     print("exact_match:", round(match_scores["exact_match"],2)) 

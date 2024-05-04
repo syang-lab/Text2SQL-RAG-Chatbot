@@ -4,7 +4,7 @@ from transformers import AutoTokenizer, AutoModelForCausalLM
 from transformers import BitsAndBytesConfig
 from peft import LoraConfig 
 from transformers import AutoModelForCausalLM
-
+from transformers import pipeline
 
 quantization_config=BitsAndBytesConfig(
     load_in_4bit=True,
@@ -18,15 +18,16 @@ quantization_config=BitsAndBytesConfig(
 )
 
 device="cuda"
-model_id= "../llama-sql-v2/meta-llama/Llama-2-7b-chat-hf"
-peft_model_id= "../llama-sql-v2/output/exp_2.0/checkpoint-1/"
+model_id= "meta-llama/Llama-2-7b-chat-hf"
+peft_model_id= "output/exp_13_model"
 model = AutoModelForCausalLM.from_pretrained(model_id,  quantization_config=quantization_config, device_map="auto")
 model.load_adapter(peft_model_id)
 
 tokenizer = AutoTokenizer.from_pretrained(model_id)
+tokenizer.pad_token_id=tokenizer.eos_token_id
 
-ds=datasets.load_from_disk("/root/llama-sql-v1/dataset/text-to-sql-v1-easy")
-item=ds["valid"][0]
+ds=datasets.load_from_disk("text-to-sql-v1-easy")
+item=ds["test"][10]
 
 system_prompt = (
     "You are a helpful programmer assistant that excels at SQL. "
@@ -44,9 +45,9 @@ output = [
 input_formated=tokenizer.apply_chat_template(output, tokenize=False)
 input_ids=tokenizer.apply_chat_template(output, return_tensors="pt").to(device)
 
-outputs = model.generate(input_ids, eos_token_id=tokenizer.eos_token_id, max_new_tokens=1000, do_sample=True, top_p=0.9,temperature=0.9)
+outputs = model.generate(input_ids, eos_token_id=tokenizer.eos_token_id, max_new_tokens=1000, do_sample=True, top_p=0.9,temperature=0.6)
 response = tokenizer.batch_decode(outputs, skip_special_tokens=True, clean_up_tokenization_spaces=False)
 
-
 print(f"\n\nCorrect response:\n{item['response']}")
-print(f"\n\nLLM response:\n{response[0][len(input_formated)-1:]}")
+idx=response[0].index("[/INST]")
+print(f"\n\nLLM response:\n{response[0][idx+1+len("[/INST]"):]}")
