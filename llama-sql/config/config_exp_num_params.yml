@@ -1,5 +1,5 @@
 dataset:
-  dataset_path: /root/llama-sql-v1/dataset/text-to-sql-v1-easy
+  dataset_path: /root/llama-sql-v4/text-to-sql-v1-easy
 model:
   model_id: meta-llama/Llama-2-7b-chat-hf
   peft_config:
@@ -16,8 +16,7 @@ model:
     llm_int8_threshold: 6.0
     load_in_4bit: true
     load_in_8bit: false
-model_output: !!set
-  ./output/exp_1.0_model: null
+model_output: ./output/exp_1.0_model
 tokenizer:
   tokenizer_config:
     max_length: 2048
@@ -48,7 +47,7 @@ train_config:
       round_robin_gradients: true
       stage: 2
   eval_steps: 1
-  evaluation_strategy: steps
+  evaluation_strategy: 'no'
   gradient_accumulation_steps: 16
   greater_is_better: false
   learning_rate: 0.0002
@@ -56,13 +55,13 @@ train_config:
   logging_steps: 1
   logging_strategy: 'no'
   max_grad_norm: 1
-  max_steps: 1
+  max_steps: 5
   metric_for_best_model: eval_loss
-  output_dir: ./output/exp_1.0
+  output_dir: ./output/exp_2.0
   per_device_eval_batch_size: 1
   per_device_train_batch_size: 1
   report_to: wandb
-  run_name: exp_1.0
+  run_name: exp_2.0
   save_steps: 10
   save_strategy: 'no'
   weight_decay: 0.01

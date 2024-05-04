@@ -16,7 +16,7 @@ model:
     llm_int8_threshold: 6.0
     load_in_4bit: true
     load_in_8bit: false
-model_output: ./output/exp_1.0_model
+model_output: ./output/exp_8.0_model
 tokenizer:
   tokenizer_config:
     max_length: 512
@@ -28,7 +28,6 @@ train_config:
   adam_epsilon: 1.0e-08
   bf16: true
   dataloader_drop_last: true
-  remove_unused_columns: false
   deepspeed:
     communication_data_type: fp16
     gradient_accumulation_steps: auto
@@ -48,21 +47,27 @@ train_config:
       round_robin_gradients: true
       stage: 2
   eval_steps: 100
-  evaluation_strategy: 'no'
+  evaluation_strategy: steps
   gradient_accumulation_steps: 16
   greater_is_better: false
-  learning_rate: 0.0002
+  learning_rate: 0.005
   load_best_model_at_end: false
   logging_steps: 20
   logging_strategy: steps
   max_grad_norm: 1
-  max_steps: 5
+  max_steps: 600
   metric_for_best_model: eval_loss
-  output_dir: ./output/exp_1.0
+  output_dir: ./output/exp_8.0
   per_device_eval_batch_size: 2
   per_device_train_batch_size: 2
   report_to: wandb
-  run_name: exp_1.0
+  run_name: exp_8.0
   save_steps: 1
   save_strategy: 'no'
-  weight_decay: 0.01
+  weight_decay: 0.001
+eval_config:
+  peft_model_id: output/exp_8.0_model
+  generation_config:
+    max_new_tokens: 2048
+    top_p: 0.8 
+    temperature: 0.8

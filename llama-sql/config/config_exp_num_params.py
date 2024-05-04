@@ -32,7 +32,7 @@ config={
     },
     
     "dataset":{
-        "dataset_path":"/root/llama-sql-v1/dataset/text-to-sql-v1-easy"
+        "dataset_path":"/root/llama-sql-v4/text-to-sql-v1-easy"
     },
 
     "train_config":{
@@ -85,7 +85,7 @@ config={
         "run_name":"exp_1.0",
     },
     
-    "model_output":{ "./output/exp_1.0_model"}
+    "model_output": "./output/exp_1.0_model"
 }
 
 with open('config_exp_num_params.yml', 'w') as yaml_file:
