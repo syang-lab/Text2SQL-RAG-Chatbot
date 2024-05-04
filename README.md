@@ -87,7 +87,7 @@ This project contains two parts:
       stage: 2
 ```
 
-![training_loss](training_loss.png)
+![training_loss](train_eval_loss.png)
 
 5. Evaluation Matrix
 <br> In general, pretrained large language models are evaluated through widely used benchmark datasets such as Alpaca, among others. Here, to assess the results of instruction fine-tuning, the test portion of the original dataset is utilized to evaluate performance. Additionally, evaluation metrics include exact match, BLEU score, and ROUGE score. Meanwhile, parameters such as temperature, top-k, and top-p can be tuned to enhance performance.
